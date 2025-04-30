@@ -32,6 +32,7 @@ using Eco.Shared.Networking;
 using Eco.Shared.Utils;
 using Eco.Gameplay.Systems;
 using Eco.Shared.Logging;
+using Eco.Mods.EcoWikiDataExporter;
 
 namespace Eco.Mods.WikiTranslateMod
 {
@@ -61,7 +62,7 @@ namespace Eco.Mods.WikiTranslateMod
 
             Directory.CreateDirectory(WTMFolder);
 
-            try { WikiData.ExportTranslate(); } catch (Exception e) { Log.WriteWarningLineLoc($"Export Translate error: {e.Message}"); };
+            try { WikiData.ExportSkillsTranslate(); } catch (Exception e) { Log.WriteWarningLineLoc($"Export Skills Translate error: {e.Message}"); };
 
         }
     }
