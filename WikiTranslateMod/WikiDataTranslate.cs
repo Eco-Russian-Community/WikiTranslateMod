@@ -35,14 +35,16 @@ using Eco.Shared;
 using Eco.Shared.IoC;
 using Eco.Gameplay.Skills;
 using Eco.Core.Items;
-using Eco.Mods.WikiTranslateMod;
 using System.Xml.Linq;
+using Eco.Simulation.Types;
+using Eco.Simulation;
+using Eco.Simulation.Agents;
 
-namespace Eco.Mods.EcoWikiDataExporter
+namespace Eco.Mods.WikiTranslateMod
 {
-	public partial class WikiData
+    public partial class WikiData
     {
-       
+
         public static void ExportSkillsTranslate()
         {
             string SkillsData = "";
@@ -56,6 +58,29 @@ namespace Eco.Mods.EcoWikiDataExporter
             WikiDataTranslateManager.WriteDictionaryToCSV("SkillsTranslate", SkillsData);
         }
 
+        public static void ExportChatCommandsTranslate()
+        {
+            string ChatCommandsData = "";
 
+            IEnumerable<ChatCommand> commands = Singleton<ChatManager>.Obj.ChatCommandService.GetAllCommands();
+            foreach (var com in commands)
+            {
+                ChatCommandsData = ChatCommandsData + "\"" + com.ParentKey + " " + com.Name + " Command\"," + WikiDataTranslateManager.Localization(com.HelpText) + "\n";
+            }
+                WikiDataTranslateManager.WriteDictionaryToCSV("ChatCommandsTranslate", ChatCommandsData);
+        }
+
+        public static void ExportSpeciesTranslate()
+        {
+            string SpeciesData = "";
+
+            IEnumerable<Species> species = EcoSim.AllSpecies;
+            foreach (Species s in species)
+            {
+                string SpeciesName = s.DisplayName;
+                SpeciesData = SpeciesData + "\"" + SpeciesName + " Species\"," + WikiDataTranslateManager.Localization(SpeciesName) + "\n";
+            }
+                WikiDataTranslateManager.WriteDictionaryToCSV("SpeciesTranslate", SpeciesData);
+        }
     }
 }
